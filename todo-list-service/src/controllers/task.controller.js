@@ -1,4 +1,4 @@
-const { createTaskService, getAllTasksService } = require('../services/task.servcie');
+const { createTaskService, getAllTasksService } = require('../services/task.service');
 
 // Controller to handle creating a new task
 const createTaskController = async (req, res) => {

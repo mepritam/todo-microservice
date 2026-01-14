@@ -1,4 +1,4 @@
-const { createNewTask, getAllTasks } = require('../repositories/list.repository');
+const { createNewTask, getAllTasks } = require('../repositories/task.repository');
 
 const createTaskService = async (taskData) => {
   const startDate = new Date(taskData.taskStartDate);
