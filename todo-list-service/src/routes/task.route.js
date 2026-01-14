@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { createTaskController } = require('../controllers/task.controller');
+const { createTaskController, getAllTasksController } = require('../controllers/task.controller');
 
 // Route to create a new task
 router.post('/user/add-list', createTaskController);
+router.get('/user/list-all', getAllTasksController);
 
 module.exports = router;

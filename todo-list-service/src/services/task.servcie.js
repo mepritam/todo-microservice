@@ -1,4 +1,4 @@
-const { createNewTask } = require('../repositories/list.repository');
+const { createNewTask, getAllTasks } = require('../repositories/list.repository');
 
 const createTaskService = async (taskData) => {
   const startDate = new Date(taskData.taskStartDate);
@@ -34,6 +34,25 @@ const createTaskService = async (taskData) => {
   return createNewTask(payload);
 }
 
+const getAllTasksService = async (query) => {
+  const {
+    sortOrder = 'desc',
+    sortBy = 'totalEffortHours',
+    page = 0,
+    limit = 10,
+  } = query;
+
+  const sortOptions = {
+    page: Number(page),
+    limit: Number(limit),
+    sortBy,
+    sortOrder,
+  };
+
+  return getAllTasks({}, sortOptions);
+}
+
 module.exports = {
   createTaskService,
+  getAllTasksService,
 };
