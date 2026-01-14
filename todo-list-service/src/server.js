@@ -1,4 +1,5 @@
-require('dotenv').config({ path: '../.env'});
+require('dotenv').config(); // MUST be first
+
 const app = require('./app');
 const connectDB = require('./config/db');
 
@@ -6,11 +7,6 @@ const connectDB = require('./config/db');
 connectDB();
 
 // start the server
-try {
-  app.listen(process.env.PORT, () => {
-    console.log('Server is running on port', process.env.PORT);
-  });
-}
-catch (error) {
-  console.error('Failed to start server:', error);
-}
+app.listen(process.env.PORT, () => {
+  console.log('Server is running on port', process.env.PORT);
+});
