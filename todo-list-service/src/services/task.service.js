@@ -1,4 +1,4 @@
-const { createNewTask, getAllTasks } = require('../repositories/task.repository');
+const { createNewTask, getAllTasks, getTaskById, updateTaskById } = require('../repositories/task.repository');
 
 const createTaskService = async (taskData) => {
   const startDate = new Date(taskData.taskStartDate);
@@ -52,7 +52,24 @@ const getAllTasksService = async (query) => {
   return getAllTasks({}, sortOptions);
 }
 
+const getTaskbyIdService = async (id) => {
+  if (require('mongoose').Types.ObjectId.isValid(id) === false) {
+    throw new Error('Invalid Task ID format');
+  }
+
+  return getTaskById(id);
+}
+
+const updateTaskByIdService = async (taskId, updateData) => {
+  if (require('mongoose').Types.ObjectId.isValid(taskId) === false) {
+    throw new Error('Invalid Task ID format');
+  }
+  return updateTaskById(taskId, updateData);
+}
+
 module.exports = {
   createTaskService,
   getAllTasksService,
+  getTaskbyIdService,
+  updateTaskByIdService,
 };

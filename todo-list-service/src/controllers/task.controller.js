@@ -1,4 +1,4 @@
-const { createTaskService, getAllTasksService } = require('../services/task.service');
+const { createTaskService, getAllTasksService, getTaskbyIdService, updateTaskByIdService } = require('../services/task.service');
 
 // Controller to handle creating a new task
 const createTaskController = async (req, res) => {
@@ -23,7 +23,31 @@ const getAllTasksController = async (req, res) => {
   }
 }
 
+const getTasjkByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await getTaskbyIdService(id);
+    res.status(200).json(task);
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+const updateTaskByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    const updatedTask = await updateTaskByIdService(id, updateData);
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed! Task not updated.', error: error.message });
+  }
+};
+
 module.exports = {
   createTaskController,
   getAllTasksController,
+  getTasjkByIdController,
+  updateTaskByIdController,
 };
