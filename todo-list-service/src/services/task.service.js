@@ -1,4 +1,4 @@
-const { createNewTask, getAllTasks, getTaskById, updateTaskById } = require('../repositories/task.repository');
+const { createNewTask, getAllTasks, getTaskById, updateTaskById, getTaskCount } = require('../repositories/task.repository');
 
 const createTaskService = async (taskData) => {
   const startDate = new Date(taskData.taskStartDate);
@@ -30,7 +30,7 @@ const createTaskService = async (taskData) => {
     taskStartDate: startDate,
     taskEndDate: endDate,
   }
-  
+
   return createNewTask(payload);
 }
 
@@ -38,18 +38,29 @@ const getAllTasksService = async (query) => {
   const {
     sortOrder = 'desc',
     sortBy = 'totalEffortHours',
-    page = 0,
+    page = 1,
     limit = 10,
+    taskStatus,
   } = query;
 
   const sortOptions = {
-    page: Number(page),
+    page: Number(page - 1),
     limit: Number(limit),
     sortBy,
     sortOrder,
   };
 
-  return getAllTasks({}, sortOptions);
+  const filters = {};
+  if (taskStatus) {
+    filters.taskStatus = taskStatus;
+  }
+
+  return {
+    tasks: await getAllTasks(filters, sortOptions),
+    totalTasks: await getTaskCount(filters),
+    currentPage: Number(page),
+    pageSize: Number(limit),
+  };
 }
 
 const getTaskbyIdService = async (id) => {

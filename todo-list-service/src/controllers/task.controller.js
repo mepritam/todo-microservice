@@ -8,14 +8,20 @@ const createTaskController = async (req, res) => {
     res.status(201).json(newTask);
   } catch (error) {
     res.status(500).json({ message: 'Failed! Task not created.', error: error.message });
-  } 
+  }
 };
 
 // Controller to handle fetching all tasks
 const getAllTasksController = async (req, res) => {
   try {
-    const tasks = await getAllTasksService(req?.query || {});
-    res.status(200).json(tasks);
+    const { tasks, totalTasks, currentPage, pageSize } = await getAllTasksService(req?.query || {});
+    const response = {
+      tasks,
+      totalTasks,
+      currentPage,
+      pageSize,
+    }
+    res.status(200).json(response);
   }
   catch (error) {
     console.error('Error fetching tasks:', error);

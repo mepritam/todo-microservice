@@ -10,7 +10,7 @@ const createNewTask = async (listData) => {
 // function to get all todo lists
 const getAllTasks = async (filters = {}, sortOptions) => {
   const { page = 0, limit = 2, sortBy = 'totalEffortHours', sortOrder = 'desc' } = sortOptions;
-  
+
   const sort = {
     [sortBy]: sortOrder === 'asc' ? 1 : -1
   };
@@ -32,9 +32,14 @@ const updateTaskById = async (taskId, updateData) => {
   )
 }
 
+const getTaskCount = async (filters = {}) => {
+  return Task.countDocuments(filters);
+}
+
 module.exports = {
   createNewTask,
   getAllTasks,
   getTaskById,
   updateTaskById,
+  getTaskCount,
 };
