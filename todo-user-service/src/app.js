@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/users', require('./routes/user.routes'));
+app.use('', require('./routes/user.routes'));
 app.use(require('./middlewares/error.middleware'));
 
 app.get('/', (req, res) => {

@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const { createNewTask, getAllTasks, getTaskById, updateTaskById, getTaskCount } = require('../repositories/task.repository');
 
 const createTaskService = async (taskData) => {
@@ -75,6 +77,22 @@ const updateTaskByIdService = async (taskId, updateData) => {
   if (require('mongoose').Types.ObjectId.isValid(taskId) === false) {
     throw new Error('Invalid Task ID format');
   }
+  // fetch the current task details
+  const taskDetails = await getTaskbyIdService(taskId);
+  if (!taskDetails) {
+    throw new Error('Invalid task Id');
+  }
+
+  const { taskStatus } = updateData;
+
+  if(moment(new Date) > moment(taskDetails?.taskEndDate) && taskStatus !== 'Pending') {
+    throw new Error('Task status must be Pending.');
+  }
+
+  if(moment(new Date) < moment(taskDetails?.taskEndDate) && taskStatus !== 'Completed') {
+    throw new Error('Task status must be Completed as task end date greater than current date.');
+  }
+
   return updateTaskById(taskId, updateData);
 }
 
