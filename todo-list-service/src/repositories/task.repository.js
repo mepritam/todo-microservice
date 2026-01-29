@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Task = require('../models/task.model');
+const mongoose = require("mongoose");
+const Task = require("../models/task.model");
 
 // Function to create new todo list
 const createNewTask = async (listData) => {
@@ -9,32 +9,44 @@ const createNewTask = async (listData) => {
 
 // function to get all todo lists
 const getAllTasks = async (filters = {}, sortOptions) => {
-  const { page = 0, limit = 2, sortBy = 'totalEffortHours', sortOrder = 'desc' } = sortOptions;
+  const {
+    page = 0,
+    limit = 2,
+    sortBy = "totalEffortHours",
+    sortOrder = "desc",
+  } = sortOptions;
 
   const sort = {
-    [sortBy]: sortOrder === 'asc' ? 1 : -1
+    [sortBy]: sortOrder === "asc" ? 1 : -1,
   };
 
-  return await Task.find(filters).sort(sort).skip(page * limit).limit(limit);
-}
+  return await Task.find(filters)
+    .sort(sort)
+    .skip(page * limit)
+    .limit(limit);
+};
 
 // fucntion to get todo list by id
 const getTaskById = async (id) => {
   return Task.findById({ _id: id });
-}
+};
 
 // function to update todo list by id
 const updateTaskById = async (taskId, updateData) => {
   return Task.findByIdAndUpdate(
     taskId,
     { taskStatus: updateData.taskStatus },
-    { new: true }
-  )
-}
+    { new: true },
+  );
+};
 
 const getTaskCount = async (filters = {}) => {
   return Task.countDocuments(filters);
-}
+};
+
+const getTaskbyUserId = async (userId) => {
+  return Task.find({ userId: userId });
+};
 
 module.exports = {
   createNewTask,
@@ -42,4 +54,5 @@ module.exports = {
   getTaskById,
   updateTaskById,
   getTaskCount,
+  getTaskbyUserId,
 };

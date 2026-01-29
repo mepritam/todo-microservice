@@ -22,7 +22,7 @@ const TaskSchema = new mongoose.Schema(
     },
     taskStatus: {
       type: String,
-      enum: ['Pending', 'In-Progress', 'Completed'],
+      enum: ['Pending', 'Completed'],
       default: 'Pending',
     },
     totalEffortHours: {
